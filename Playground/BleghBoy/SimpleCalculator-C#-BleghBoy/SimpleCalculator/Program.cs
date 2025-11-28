@@ -3,25 +3,25 @@
 Console.WriteLine("Enter your calculation :");
 
 string? input = Console.ReadLine();
+bool isInputValid = CheckUserInput(input);
 
-CheckUserInput(input);
-
-
-
-
-
-
-static void CheckUserInput(string? userInput)
+while (!isInputValid)
 {
-	if (string.IsNullOrWhiteSpace(userInput))
-	{
-		Console.WriteLine("No input provided.");
-		return;
-	}
+	isInputValid = CheckUserInput(input);
+}
 
-	if (userInput.ToCharArray().Any(c => !Char.IsNumber(c) && !c.IsMathematicSymbol()))
+Console.WriteLine(CalculatorService.Evaluate(input!));
+
+
+
+
+static bool CheckUserInput(string? userInput)
+{
+	if (string.IsNullOrWhiteSpace(userInput) || 
+		userInput.ToCharArray().Any(c => !Char.IsNumber(c) && !c.IsMathematicSymbol()))
 	{
-		Console.WriteLine("Invalid characters in input.");
-		return;
+		Console.WriteLine("Empty or invalid input.");
+		return false;
 	}
+	return true;
 }
